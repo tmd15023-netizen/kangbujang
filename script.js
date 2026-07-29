@@ -18,6 +18,49 @@
   const DEFAULT_PRESALE_IMAGE = 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&h=375&fit=crop';
   const IMAGE_PROXY = 'https://wsrv.nl/';
 
+  const RSS_CACHE_TTL = 30 * 60 * 1000;
+  const REGION_FEED_PATH = 'data/region-feed.json';
+  const PRESALE_FEED_PATH = 'data/presale-feed.json';
+
+  const propertyListings = [
+    {
+      title: '【아파트매매】군산미장코아루아파트129.19㎡(56평)정남향저층올리모델링◆매매가37000만원→3억5000만원가격조정◆',
+      link: 'https://blog.naver.com/bacigi08/224355493085',
+      pubDate: '2026-07-23 06:08:31',
+      guid: 'https://blog.naver.com/bacigi08/224355493085',
+      thumbnail: 'https://blogthumb.pstatic.net/MjAyNjA3MjNfMTQ3/MDAxNzg0Nzg1MjYzOTcx.6CPc71t8TW-Cxv3GF8JTYKtkNOWMPAVyygcyd1QHR90g.oNjzEZGNULeDcZv6467GSa_g8xU4uHjQnl5-Uw9UH3Ig.JPEG/%B8%DE%C0%CE_%C1%F6%C7%C7%C6%BC.jpg?type=s3',
+      description: '군산 미장동 코아루 아파트 매매',
+      categories: ['아파트']
+    },
+    {
+      title: '【아파트월세】군산시내흥동영무예다음아파트84.5003㎡(33평)신축아파트로얄층정남향오션뷰시스템4EA◆보증금1억원월세60만원조정가능◆즉시입주가능',
+      link: 'https://blog.naver.com/bacigi08/224355372992',
+      pubDate: '2026-07-23 04:17:49',
+      guid: 'https://blog.naver.com/bacigi08/224355372992',
+      thumbnail: 'https://blogthumb.pstatic.net/MjAyNjA3MjNfMTMx/MDAxNzg0Nzc5Njc3NTcw.oziTXQeiYFvrdg8R_9gyq2LIhhMdaVM5wA6aLuNwPJcg.UXpYFrGB_aBY6HM2Jl48guFSSWCVneWSSF7ekayXHDIg.JPEG/%B8%DE%C0%CE_%C1%F6%C7%C7%C6%BC_%BF%F9%BC%BC.jpg?type=s3',
+      description: '군산시 내흥동 영무예다음 아파트 월세',
+      categories: ['아파트']
+    },
+    {
+      title: '【아파트매매】서천장항읍더에이치아파트84.94㎡(32평)정남향고층일조권조망권우수◆매매1억6000만원◆',
+      link: 'https://blog.naver.com/bacigi08/224355119378',
+      pubDate: '2026-07-23 00:02:41',
+      guid: 'https://blog.naver.com/bacigi08/224355119378',
+      thumbnail: 'https://blogthumb.pstatic.net/MjAyNjA3MjNfMTM5/MDAxNzg0NzYzOTQzNTgz.4sIbvlslnrOptEzNhPUPHQ8wgr1TYCTYRarYKlAc3tog.0bJP64us_NyHxpgHma9dfi5VZpe0Rp4MCNmf8V3XOU4g.JPEG/%B8%DE%C0%CE_%C1%F6%C7%C7%C6%BC.jpg?type=s3',
+      description: '서천 장항읍 더에이치 아파트 매매',
+      categories: ['아파트']
+    },
+    {
+      title: '【아파트전세】군산시내흥동영무예다음아파트84.5003㎡(33평)신축아파트로얄층오션뷰시스템에어컨4EA◆전세2억2000만원◆즉시입주가능',
+      link: 'https://blog.naver.com/bacigi08/224350818383',
+      pubDate: '2026-07-19 00:45:10',
+      guid: 'https://blog.naver.com/bacigi08/224350818383',
+      thumbnail: 'https://blogthumb.pstatic.net/MjAyNjA3MTlfMTk2/MDAxNzg0NDIwOTAyMTI4.mFC6NLQjiN1d3hT150AeXQE-wlkr2JD2WffPS3woIywg.O7WRhIJ21yQhQu1G2CRTB59O8KH2ZSGkL6IP9mkUpwog.JPEG/%B8%DE%C0%CE_%C1%F6%C7%C7%C6%BC.jpg?type=s3',
+      description: '군산시 내흥동 영무예다음 아파트 전세',
+      categories: ['아파트']
+    }
+  ];
+
   const presaleListings = [
     {
       id: 'fallback-1',
@@ -185,14 +228,114 @@
     };
   }
 
-  function fetchBlogPresalePosts() {
-    return fetch(BLOG_RSS_API)
-      .then(function (res) { return res.json(); })
+  function getRssCacheKey(rssUrl) {
+    return 'kangboss_rss_' + rssUrl.replace(/[^a-z0-9]+/gi, '_').slice(0, 48);
+  }
+
+  function readRssCache(rssUrl) {
+    try {
+      const raw = localStorage.getItem(getRssCacheKey(rssUrl));
+      if (!raw) return null;
+      const cached = JSON.parse(raw);
+      if (!cached.items || Date.now() - cached.time > RSS_CACHE_TTL) return null;
+      return cached.items;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  function writeRssCache(rssUrl, items) {
+    try {
+      localStorage.setItem(getRssCacheKey(rssUrl), JSON.stringify({
+        time: Date.now(),
+        items: items
+      }));
+    } catch (err) {
+      /* ignore quota errors */
+    }
+  }
+
+  function parseRssXml(xmlText) {
+    const doc = new DOMParser().parseFromString(xmlText || '', 'text/xml');
+    if (doc.querySelector('parsererror')) {
+      throw new Error('RSS XML parse error');
+    }
+
+    return Array.from(doc.querySelectorAll('item')).map(function (item) {
+      const categories = Array.from(item.querySelectorAll('category')).map(function (node) {
+        return node.textContent || '';
+      });
+
+      return {
+        title: (item.querySelector('title') && item.querySelector('title').textContent) || '',
+        link: (item.querySelector('link') && item.querySelector('link').textContent) || '',
+        pubDate: (item.querySelector('pubDate') && item.querySelector('pubDate').textContent) || '',
+        guid: (item.querySelector('guid') && item.querySelector('guid').textContent) || '',
+        description: (item.querySelector('description') && item.querySelector('description').textContent) || '',
+        content: (item.querySelector('description') && item.querySelector('description').textContent) || '',
+        categories: categories
+      };
+    });
+  }
+
+  function fetchRssFromRss2Json(rssUrl) {
+    return fetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl))
+      .then(function (res) {
+        if (!res.ok) throw new Error('rss2json HTTP ' + res.status);
+        return res.json();
+      })
       .then(function (data) {
-        if (data.status !== 'ok' || !data.items) {
-          throw new Error('RSS 응답 오류');
+        if (data.status !== 'ok' || !data.items || !data.items.length) {
+          throw new Error(data.message || 'rss2json empty');
         }
-        const posts = data.items.filter(isPresalePost).map(mapBlogItem);
+        return data.items;
+      });
+  }
+
+  function fetchRssFromAllOrigins(rssUrl) {
+    return fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(rssUrl))
+      .then(function (res) {
+        if (!res.ok) throw new Error('allorigins HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        const items = parseRssXml(data.contents || '');
+        if (!items.length) throw new Error('allorigins empty');
+        return items;
+      });
+  }
+
+  function fetchRssFromLocalFeed(feedPath) {
+    return fetch(feedPath, { cache: 'no-cache' })
+      .then(function (res) {
+        if (!res.ok) throw new Error('local feed HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        if (data.items && data.items.length) return data.items;
+        throw new Error('local feed empty');
+      });
+  }
+
+  function fetchRssItems(rssUrl, localFeedPath) {
+    return fetchRssFromRss2Json(rssUrl)
+      .catch(function () { return fetchRssFromAllOrigins(rssUrl); })
+      .catch(function () { return fetchRssFromLocalFeed(localFeedPath); })
+      .catch(function () {
+        const cached = readRssCache(rssUrl);
+        if (cached && cached.length) return cached;
+        throw new Error('RSS unavailable');
+      })
+      .then(function (items) {
+        writeRssCache(rssUrl, items);
+        return items;
+      });
+  }
+
+  function fetchBlogPresalePosts() {
+    return fetchRssItems(BLOG_RSS_URL, PRESALE_FEED_PATH)
+      .then(function (items) {
+        const posts = items.filter(isPresalePost).map(mapBlogItem);
         return posts.length > 0 ? posts : presaleListings;
       })
       .catch(function () {
@@ -364,20 +507,21 @@
     };
   }
 
+  function mapRegionProperties(items) {
+    return items
+      .filter(isRegionPost)
+      .filter(isListingPost)
+      .map(mapRegionBlogItem);
+  }
+
   function fetchRegionBlogProperties() {
-    return fetch(REGION_BLOG_RSS_API)
-      .then(function (res) { return res.json(); })
-      .then(function (data) {
-        if (data.status !== 'ok' || !data.items) {
-          throw new Error('RSS 응답 오류');
-        }
-        return data.items
-          .filter(isRegionPost)
-          .filter(isListingPost)
-          .map(mapRegionBlogItem);
+    return fetchRssItems(REGION_BLOG_RSS_URL, REGION_FEED_PATH)
+      .then(function (items) {
+        const mapped = mapRegionProperties(items);
+        return mapped.length > 0 ? mapped : mapRegionProperties(propertyListings);
       })
       .catch(function () {
-        return [];
+        return mapRegionProperties(propertyListings);
       });
   }
 
