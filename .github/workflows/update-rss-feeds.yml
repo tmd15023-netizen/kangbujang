@@ -1,0 +1,32 @@
+name: Update RSS feeds
+
+on:
+  schedule:
+    # 6시간마다 (UTC) — 한국 시간 09:00, 15:00, 21:00, 03:00
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-feeds:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch blog RSS snapshots
+        run: python3 scripts/update_rss_feeds.py
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/region-feed.json data/presale-feed.json
+          if git diff --staged --quiet; then
+            echo "No feed changes to commit."
+          else
+            git commit -m "chore: auto-update RSS feed snapshots"
+            git push
+          fi
