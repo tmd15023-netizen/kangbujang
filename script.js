@@ -8,11 +8,9 @@
   const BLOG_URL = 'https://blog.naver.com/jbbb1111';
   const PRESALE_CATEGORY_URL = 'https://blog.naver.com/PostList.naver?blogId=jbbb1111&from=postList&categoryNo=1';
   const BLOG_RSS_URL = 'https://rss.blog.naver.com/jbbb1111.xml';
-  const BLOG_RSS_API = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(BLOG_RSS_URL);
 
   const REGION_BLOG_URL = 'https://blog.naver.com/bacigi08';
   const REGION_BLOG_RSS_URL = 'https://rss.blog.naver.com/bacigi08.xml';
-  const REGION_BLOG_RSS_API = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(REGION_BLOG_RSS_URL);
 
   const DEFAULT_PROPERTY_IMAGE = 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=300&fit=crop';
   const DEFAULT_PRESALE_IMAGE = 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&h=375&fit=crop';
