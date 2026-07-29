@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer">
+  <title>강부장 | 임대·매매 전문</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://wsrv.nl">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Logo Header -->
+  <header class="site-header">
+    <div class="logo-area">
+      <p class="logo-ko">강부장</p>
+      <h1 class="logo-en">Best your Partner</h1>
+    </div>
+    <nav class="main-nav">
+      <a href="#presale" class="nav-item nav-presale">분양정보</a>
+      <span class="nav-divider">|</span>
+      <a href="#properties" class="nav-item">매물</a>
+      <span class="nav-divider">|</span>
+      <a href="#" class="nav-item nav-fav" id="addFavorite">즐겨찾기추가하기</a>
+    </nav>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="hero-banner">
+    <div class="hero-overlay"></div>
+    <div class="hero-text">
+      <h2>강부장</h2>
+      <p class="hero-slogan">책임있는 중개로 정성을 다하겠습니다.</p>
+      <p class="hero-slogan">전국 분양 전문!!</p>
+      <p class="hero-sub">서천·장항 · 군산·전북 지역 분양 · 임대 · 매매 전문</p>
+    </div>
+  </section>
+
+  <!-- Presale Section -->
+  <section class="presale-section" id="presale">
+    <div class="presale-inner">
+      <div class="presale-header">
+        <div>
+          <p class="presale-label">NEW · PRE-SALE</p>
+          <h2 class="presale-title">분양정보</h2>
+          <p class="presale-desc">네이버 블로그 <a href="https://blog.naver.com/PostList.naver?blogId=jbbb1111&from=postList&categoryNo=1" target="_blank" rel="noopener noreferrer">분양</a> 카테고리 글만 자동 연동됩니다.</p>
+        </div>
+        <div class="presale-header-actions">
+          <a href="https://blog.naver.com/PostList.naver?blogId=jbbb1111&from=postList&categoryNo=1" class="presale-blog-btn" target="_blank" rel="noopener noreferrer">분양 글 더보기</a>
+          <a href="https://open.kakao.com/o/s6rMaKii" class="presale-contact-btn" target="_blank" rel="noopener noreferrer">분양 상담하기</a>
+        </div>
+      </div>
+      <p class="presale-guide">※ <a href="https://blog.naver.com/PostList.naver?blogId=jbbb1111&from=postList&categoryNo=1" target="_blank" rel="noopener noreferrer">블로그 「분양」 카테고리</a>에 올린 글만 메인에 노출됩니다. (다른 카테고리 글은 표시되지 않음)</p>
+      <div class="presale-grid" id="presaleGrid">
+        <p class="presale-loading">블로그 분양정보를 불러오는 중...</p>
+      </div>
+      <div class="presale-more-wrap">
+        <a href="https://blog.naver.com/PostList.naver?blogId=jbbb1111&from=postList&categoryNo=1" class="presale-more-btn" target="_blank" rel="noopener noreferrer">분양정보 더보기</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main 3-Column Layout -->
+  <div class="page-body">
+    <!-- Left Sidebar -->
+    <aside class="sidebar-left">
+      <a href="#presale" class="service-btn service-btn--presale">
+        <span class="service-icon">🏢</span>
+        분양정보 보기
+      </a>
+      <a href="#properties" class="service-btn">
+        <span class="service-icon">🏠</span>
+        서천장항군산지역 매물
+      </a>
+      <a href="#company" class="service-btn">
+        <span class="service-icon">💼</span>
+        회사소개/약도
+      </a>
+      <a href="#inquiry" class="service-btn">
+        <span class="service-icon">👆</span>
+        매도/매수 의뢰
+      </a>
+    </aside>
+
+    <!-- Center Content -->
+    <main class="content-main" id="properties">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title" id="sectionTitle">서천장항군산지역 추천매물</h2>
+          <p class="section-sub" id="sectionSub">서천·장항·군산 지역 매물 · 블로그 자동 연동</p>
+        </div>
+        <a href="https://blog.naver.com/bacigi08" class="more-link" id="moreLink" target="_blank" rel="noopener noreferrer">+ 블로그 더보기</a>
+      </div>
+
+      <div class="property-grid" id="propertyGrid">
+        <p class="no-results">매물 정보를 불러오는 중...</p>
+      </div>
+
+      <!-- Company Info -->
+      <section class="info-section company-section" id="company">
+        <h3>회사소개</h3>
+        <div class="company-profile">
+          <p class="company-name">대영 공인중개사</p>
+          <p class="company-id">
+            <a href="https://blog.naver.com/bacigi08" target="_blank" rel="noopener noreferrer"></a>
+          </p>
+          <p class="company-intro">안녕하세요~~서천-장항 부동산 상담을 하고 있는 원주민 공인중개사입니다.</p>
+          <p class="company-intro">부동산 거래에 있어서 안전하고 발빠른 거래를 약속 드립니다.</p>
+          <p class="company-intro">필요한 것이 있으시면 언제든지 연락 부탁드립니다.</p>
+          <p class="company-meta">등록번호 44770-2019-00003호</p>
+          <p class="company-meta"><a href="tel:041-956-4492">041-956-4492</a></p>
+        </div>
+      </section>
+
+      <!-- Inquiry Form -->
+      <section class="info-section inquiry-section" id="inquiry">
+        <h3>매도/매수 의뢰</h3>
+        <form class="inquiry-form" id="inquiryForm" method="POST" target="inquirySubmitFrame">
+          <input type="hidden" name="접수시간" id="inquirySubmittedAt">
+          <div class="form-row">
+            <input type="text" name="이름" placeholder="이름" required>
+            <input type="tel" name="연락처" placeholder="연락처" required>
+          </div>
+          <select name="의뢰유형" required>
+            <option value="">의뢰 유형 선택</option>
+            <option value="매도 의뢰">매도 의뢰</option>
+            <option value="매수 의뢰">매수 의뢰</option>
+            <option value="임대 의뢰">임대 의뢰</option>
+            <option value="임차 의뢰">임차 의뢰</option>
+          </select>
+          <textarea name="문의 내용" rows="3" placeholder="매물 정보 또는 문의 내용을 입력해 주세요." required></textarea>
+          <button type="submit" class="submit-btn">의뢰 접수하기</button>
+          <p class="inquiry-guide">의뢰는 Google 스프레드시트와 이메일로 저장됩니다. <a href="inquiries-admin.html">임시 저장 내역 보기</a></p>
+          <details class="inquiry-setup">
+            <summary>저장 설정 방법 (최초 1회)</summary>
+            <ol>
+              <li>Google 스프레드시트를 새로 만듭니다.</li>
+              <li><code>google-apps-script.gs</code> 내용을 Apps Script에 붙여넣습니다.</li>
+              <li>웹 앱으로 배포합니다. (액세스: 모든 사용자)</li>
+              <li>배포 URL을 <code>script.js</code>의 <code>INQUIRY_SHEET_URL</code>에 입력합니다.</li>
+            </ol>
+          </details>
+        </form>
+      </section>
+    </main>
+
+    <!-- Right Sidebar -->
+    <aside class="sidebar-right">
+      <div class="widget recent-widget">
+        <h3 class="widget-title">오늘 본 매물</h3>
+        <div class="recent-carousel">
+          <button class="recent-arrow recent-prev" id="recentPrev" aria-label="이전">▲</button>
+          <ul class="recent-list" id="recentList">
+            <li class="recent-empty">아직 본 매물이 없습니다.</li>
+          </ul>
+          <button class="recent-arrow recent-next" id="recentNext" aria-label="다음">▼</button>
+        </div>
+      </div>
+
+      <div class="widget agent-widget">
+        <div class="agent-photo">
+          <img src="images/kangboss-mascot.png" alt="강부장 공인중개사">
+        </div>
+        <p class="agent-name">강부장</p>
+        <p class="agent-phone"><a href="tel:1688-8304">1688-8304</a></p>
+        <a href="https://open.kakao.com/o/s6rMaKii" class="kakao-btn" target="_blank" rel="noopener noreferrer">카카오 1:1 상담</a>
+        <ul class="agent-specialty">
+          <li>서천·장항·군산 매물 전문</li>
+          <li>영무예다음 등 분양 전문</li>
+          <li>아파트 · 빌라 · 상가</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <p>강부장부동산 | 대표: 강부장 | 사업자등록번호: 123-45-67890 | 공인중개사 등록번호: 서울 제 2024-0000호</p>
+    <p>서울특별시 강남구 테헤란로 123 | Tel. <a href="tel:1688-8304">1688-8304</a> | <a href="https://open.kakao.com/o/s6rMaKii" target="_blank" rel="noopener noreferrer">카카오 오픈채팅</a> | &copy; 2026 강부장부동산</p>
+  </footer>
+
+  <!-- Property / Presale Detail Modal -->
+  <div class="modal" id="propertyModal" aria-hidden="true">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose" aria-label="닫기">&times;</button>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- Inquiry Success Modal -->
+  <div class="modal" id="inquiryModal" aria-hidden="true">
+    <div class="modal-backdrop" id="inquiryModalBackdrop"></div>
+    <div class="modal-content inquiry-modal-content">
+      <button class="modal-close" id="inquiryModalClose" aria-label="닫기">&times;</button>
+      <div class="modal-body inquiry-modal-body">
+        <h3 id="inquiryModalTitle">의뢰 접수 완료</h3>
+        <p class="inquiry-success-text" id="inquiryModalDesc">의뢰 내용이 저장되었습니다. 빠른 시일 내에 연락드리겠습니다.</p>
+        <p class="inquiry-success-sub" id="inquiryModalSub">Google 스프레드시트와 이메일로 저장됩니다. 임시 내역은 <a href="inquiries-admin.html">의뢰 내역 페이지</a>에서 확인할 수 있습니다.</p>
+        <div class="inquiry-modal-actions inquiry-modal-actions--single">
+          <a href="https://open.kakao.com/o/s6rMaKii" class="inquiry-action-btn inquiry-action-btn--kakao" target="_blank" rel="noopener noreferrer">카카오톡 1:1 상담</a>
+          <button type="button" class="inquiry-action-btn" id="inquiryModalOkBtn">닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <iframe name="inquirySubmitFrame" id="inquirySubmitFrame" title="의뢰 전송" class="inquiry-submit-frame"></iframe>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
